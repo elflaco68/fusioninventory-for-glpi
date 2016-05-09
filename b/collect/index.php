@@ -123,6 +123,7 @@ if (isset($_GET['action'])) {
             $status_finish = false;
             $CollectObj = new $jobstate['itemtype'];
             $CollectObjSearch = $CollectObj->find("plugin_fusioninventory_collect_id = {$parent['items_id']}");
+            Toolbox::logInFile('fusinv',print_r($CollectObjSearch,true));
             end($CollectObjSearch);
 
 
