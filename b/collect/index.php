@@ -122,16 +122,13 @@ if (isset($_GET['action'])) {
          //Is this the final task of that collect?
             $status_finish = false;
             $CollectObj = new $jobstate['itemtype'];
-            $CollectObjSearch = $CollectObj->find("plugin_fusioninventory_collect_id = {$parent['items_id']}");
-            Toolbox::logInFile('fusinv',print_r($CollectObjSearch,true));
+            $CollectObjSearch = $CollectObj->find("plugin_fusioninventory_collects_id = {$parent['items_id']}");
             end($CollectObjSearch);
-
 
             if($jobstate['items_id'] == key($CollectObjSearch)){
               $status_finish = true;
             }
-            Toolbox::logInFile('fusinv',print_r("status_finish",true));
-            Toolbox::logInFile('fusinv',print_r($status_finish,true));
+            
 
 
          if (isset($jobstate['plugin_fusioninventory_agents_id'])) {
