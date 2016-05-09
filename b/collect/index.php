@@ -112,11 +112,23 @@ if (isset($_GET['action'])) {
 
          //At this point, itemtype and items_id relates to the parent Collect, they should be translated to the actual collect task inside.
 
+         $parent['itemtype'] = $jobstate['itemtype'];
+         $parent['items_id'] = $jobstate['items_id'];
+
          $jobstate['itemtype'] = PluginFusioninventoryCollect::getRealItemtypeById($jobstate['items_id']);
          $jobstate['items_id'] = $_GET['uuid'][1];
 
          
+         //Is this the final task of that collect?
+            $status_finish = false;
+            $CollectObj = new $jobstate['itemtype'];
+            $CollectObjSearch = $CollectObj->find("plugin_fusioninventory_collect_id = {$parent['items_id']}");
+            end($CollectObjSearch);
 
+
+            if($jobstate['items_id'] == key($CollectObjSearch)){
+              $status_finish = true;
+            }
 
 
          if (isset($jobstate['plugin_fusioninventory_agents_id'])) {
@@ -127,6 +139,8 @@ if (isset($_GET['action'])) {
             unset($a_values['action']);
             //we might need the uuid after all
             //unset($a_values['uuid']);
+
+            
 
             switch ($jobstate['itemtype']) {
 
@@ -141,19 +155,25 @@ if (isset($_GET['action'])) {
                           PluginFusioninventoryTaskjobstate::AGENT_HAS_SENT_DATA);
                   if (isset($a_values['_cpt'])
                           && $a_values['_cpt'] == 0) { // it not find the path
-                     $pfTaskjobstate->changeStatusFinish(
+
+                    if($status_finish){
+                      $pfTaskjobstate->changeStatusFinish(
                           $jobstate['id'],
                           $jobstate['items_id'],
                           $jobstate['itemtype'],
                           1,
-                          'Path not found');
+                          'Path not found');  
+                    }
+                    
                   }
                   if (isset($a_values['_cpt'])
                           && $a_values['_cpt'] == 1) { // it last value
-                     $pfTaskjobstate->changeStatusFinish(
+                    if($status_finish){
+                      $pfTaskjobstate->changeStatusFinish(
                           $jobstate['id'],
                           $jobstate['items_id'],
                           $jobstate['itemtype']);
+                    }
                   }
                   break;
 
@@ -166,11 +186,14 @@ if (isset($_GET['action'])) {
                   $pfTaskjobstate->changeStatus(
                           $jobstate['id'],
                           PluginFusioninventoryTaskjobstate::AGENT_HAS_SENT_DATA);
-                  if (isset($a_values['_cpt'])) { // it last value
-                     $pfTaskjobstate->changeStatusFinish(
+                  if (isset($a_values['_cpt'])) {
+                    if($status_finish){
+                      $pfTaskjobstate->changeStatusFinish(
                           $jobstate['id'],
                           $jobstate['items_id'],
                           $jobstate['itemtype']);
+                    } 
+                     
                   }
                   break;
 
@@ -185,10 +208,13 @@ if (isset($_GET['action'])) {
                      $pfCFC->updateComputer($computers_id,
                                             $jobstate['items_id'],
                                             $jobstate['id'],$a_values['_cpt']);
-                     $pfTaskjobstate->changeStatusFinish(
+                     if($status_finish){
+                      $pfTaskjobstate->changeStatusFinish(
                           $jobstate['id'],
                           $jobstate['items_id'],
-                          $jobstate['itemtype']);
+                          $jobstate['itemtype']); 
+                     }
+                     
                   }
                   break;
 
