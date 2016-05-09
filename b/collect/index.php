@@ -110,16 +110,22 @@ if (isset($_GET['action'])) {
 
 
 
-         //At this point, itemtype and items_id relates to the parent Collect, they should be translated to the actual collect task inside.
-
-         $parent['itemtype'] = $jobstate['itemtype'];
-         $parent['items_id'] = $jobstate['items_id'];
-
-         $jobstate['itemtype'] = PluginFusioninventoryCollect::getRealItemtypeById($jobstate['items_id']);
-         $jobstate['items_id'] = $_GET['uuid'][1];
-
          
-         //Is this the final task of that collect?
+            
+
+
+         if (isset($jobstate['plugin_fusioninventory_agents_id'])) {
+
+            //At this point, itemtype and items_id relates to the parent Collect, they should be translated to the actual collect task inside.
+
+           $parent['itemtype'] = $jobstate['itemtype'];
+           $parent['items_id'] = $jobstate['items_id'];
+
+           $jobstate['itemtype'] = PluginFusioninventoryCollect::getRealItemtypeById($jobstate['items_id']);
+           $jobstate['items_id'] = $_GET['uuid'][1];
+
+           
+            //Is this the final task of that collect?
             $status_finish = false;
             $CollectObj = new $jobstate['itemtype'];
             $CollectObjSearch = $CollectObj->find("plugin_fusioninventory_collects_id = {$parent['items_id']}");
@@ -128,10 +134,7 @@ if (isset($_GET['action'])) {
             if($jobstate['items_id'] == key($CollectObjSearch)){
               $status_finish = true;
             }
-            
 
-
-         if (isset($jobstate['plugin_fusioninventory_agents_id'])) {
             $pfAgent->getFromDB($jobstate['plugin_fusioninventory_agents_id']);
             $computers_id = $pfAgent->fields['computers_id'];
 
