@@ -181,10 +181,12 @@ class PluginFusioninventoryCollect_File_Content extends CommonDBTM {
 
 
    function showForComputer($computers_id) {
-
+      $collectFile = new PluginFusioninventoryCollect_File;
+      $collect = new PluginFusioninventoryCollect;
       echo "<table class='tab_cadre_fixe'>";
 
       echo "<tr>";
+      echo "<th>".__('Collect', 'fusioninventory')."</th>";
       echo "<th>".__('Path/file', 'fusioninventory')."</th>";
       echo "<th>".__('Size', 'fusioninventory')."</th>";
       echo "</tr>";
@@ -194,6 +196,16 @@ class PluginFusioninventoryCollect_File_Content extends CommonDBTM {
                                  `pathfile`");
       foreach ($a_data as $data) {
          echo "<tr class='tab_bg_1'>";
+         echo '<td>';
+         $collectName = $collectFileName = "N/A";
+         if($collectFile->getFromDB($a_data['plugin_fusioninventory_collects_files_id'])){
+            $collectFileName = $collectFile->fields['name'];
+            if($collect->getFromDB($collectFile->fields['plugin_fusioninventory_collects_id'])){
+               $collectName = $collect->fields['name'];
+            }
+         }
+         echo $collectName." (".$collectFileName.")";
+         echo '</td>';
          echo '<td>';
          echo $data['pathfile'];
          echo '</td>';
