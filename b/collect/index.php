@@ -44,7 +44,7 @@ ob_start();
 include ("../../../../inc/includes.php");
 ob_end_clean();
 
-$response = array();
+$response = new Stdclass();
 //Agent communication using REST protocol
 if (isset($_GET['action'])) {
    switch ($_GET['action']) {
@@ -66,7 +66,7 @@ if (isset($_GET['action'])) {
                         foreach ($array as $data) {
                            $out = $class->run($data, $a_agent);
                            if (count($out) > 0) {
-                              $response[] = $out;
+                              $response->jobs = $out;
                            }
                            $pfTaskjobstate->changeStatus(
                                    $data['id'],
