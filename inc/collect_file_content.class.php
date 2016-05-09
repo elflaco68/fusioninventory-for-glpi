@@ -191,9 +191,7 @@ class PluginFusioninventoryCollect_File_Content extends CommonDBTM {
       echo "<th>".__('Size', 'fusioninventory')."</th>";
       echo "</tr>";
 
-      $a_data = $this->find("`computers_id`='".$computers_id."'",
-                              "`plugin_fusioninventory_collects_files_id`,
-                                 `pathfile`");
+      $a_data = $this->find("`computers_id`='".$computers_id."'");
       foreach ($a_data as $data) {
          echo "<tr class='tab_bg_1'>";
          echo '<td>';
