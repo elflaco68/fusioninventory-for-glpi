@@ -152,11 +152,11 @@ if (isset($_GET['action'])) {
                   $pfCWC = new PluginFusioninventoryCollect_Wmi_Content();
                   $pfCWC->updateComputer($computers_id,
                                          $a_values,
-                                         $jobstate['items_id']);
+                                         $jobstate['items_id'],$a_values['_cpt']);
                   $pfTaskjobstate->changeStatus(
                           $jobstate['id'],
                           PluginFusioninventoryTaskjobstate::AGENT_HAS_SENT_DATA);
-                  if ($a_values['_cpt'] == 1) { // it last value
+                  if (isset($a_values['_cpt'])) { // it last value
                      $pfTaskjobstate->changeStatusFinish(
                           $jobstate['id'],
                           $jobstate['items_id'],
@@ -171,10 +171,10 @@ if (isset($_GET['action'])) {
                   $pfTaskjobstate->changeStatus(
                           $jobstate['id'],
                           PluginFusioninventoryTaskjobstate::AGENT_HAS_SENT_DATA);
-                  if ($a_values['_cpt'] == 1) { // it last value
+                  if (isset($a_values['_cpt'])) { // it last value
                      $pfCFC->updateComputer($computers_id,
                                             $jobstate['items_id'],
-                                            $jobstate['id']);
+                                            $jobstate['id'],$a_values['_cpt']);
                      $pfTaskjobstate->changeStatusFinish(
                           $jobstate['id'],
                           $jobstate['items_id'],

@@ -98,7 +98,7 @@ class PluginFusioninventoryCollect_File_Content extends CommonDBTM {
 
 
 
-   function updateComputer($computers_id, $collects_files_id, $taskjobstates_id) {
+   function updateComputer($computers_id, $collects_files_id, $taskjobstates_id,$cpt) {
       global $DB;
 
       $pfTaskjobstate = new PluginFusioninventoryTaskjobstate();
@@ -158,7 +158,7 @@ class PluginFusioninventoryCollect_File_Content extends CommonDBTM {
                $input = array(
                    'computers_id' => $computers_id,
                    'plugin_fusioninventory_collects_files_id' => $collects_files_id,
-                   'pathfile'     => $value['path'],
+                   'pathfile'     => ($cpt == 0) ? 'Path not found' : $value['path'],
                    'size'         => $value['size']
                );
                $this->add($input);
