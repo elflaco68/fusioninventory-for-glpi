@@ -196,7 +196,7 @@ class PluginFusioninventoryCollect_File_Content extends CommonDBTM {
          echo "<tr class='tab_bg_1'>";
          echo '<td>';
          $collectName = $collectFileName = "N/A";
-         if($collectFile->getFromDB($a_data['plugin_fusioninventory_collects_files_id'])){
+         if($collectFile->getFromDB($data['plugin_fusioninventory_collects_files_id'])){
             $collectFileName = $collectFile->fields['name'];
             if($collect->getFromDB($collectFile->fields['plugin_fusioninventory_collects_id'])){
                $collectName = $collect->fields['name'];
