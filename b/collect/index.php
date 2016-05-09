@@ -105,10 +105,19 @@ if (isset($_GET['action'])) {
             AND `state`!='".PluginFusioninventoryTaskjobstate::FINISHED."'", '', 1));
 
 
+         
+         
+
+
+
          //At this point, itemtype and items_id relates to the parent Collect, they should be translated to the actual collect task inside.
 
          $jobstate['itemtype'] = PluginFusioninventoryCollect::getRealItemtypeById($jobstate['items_id']);
          $jobstate['items_id'] = $_GET['uuid'][1];
+
+         
+
+
 
          if (isset($jobstate['plugin_fusioninventory_agents_id'])) {
             $pfAgent->getFromDB($jobstate['plugin_fusioninventory_agents_id']);
@@ -116,7 +125,8 @@ if (isset($_GET['action'])) {
 
             $a_values = $_GET;
             unset($a_values['action']);
-            unset($a_values['uuid']);
+            //we might need the uuid after all
+            //unset($a_values['uuid']);
 
             switch ($jobstate['itemtype']) {
 
@@ -165,7 +175,7 @@ if (isset($_GET['action'])) {
                   break;
 
                case 'PluginFusioninventoryCollect_File':
-                  // update registry content
+                  // update file content
                   $pfCFC = new PluginFusioninventoryCollect_File_Content();
                   $pfCFC->storeTempFilesFound($jobstate['id'], $a_values);
                   $pfTaskjobstate->changeStatus(
