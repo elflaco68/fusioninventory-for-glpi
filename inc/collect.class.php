@@ -461,6 +461,7 @@ class PluginFusioninventoryCollect extends CommonDBTM {
 
 
       }
+      $output = array_values($output);
       return $output;
    }
 }
