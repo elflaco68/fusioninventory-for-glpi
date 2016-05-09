@@ -410,12 +410,13 @@ class PluginFusioninventoryCollect extends CommonDBTM {
             $pfCollect_search = $pfCollect_Wmi->find("plugin_fusioninventory_collects_id = {$taskjob['items_id']}");
             
             foreach($pfCollect_search as $i => $one_collect){
-            $pfCollect_Wmi->getFromDB($one_collect['id']);
-            $output[$i]['function'] = 'getFromWMI';
+               $pfCollect_Wmi->getFromDB($one_collect['id']);
+               $output[$i]['function'] = 'getFromWMI';
 //            $output['moniker'] = $pfCollect_Wmi->fields['moniker'];
-            $output[$i]['class'] = $pfCollect_Wmi->fields['class'];
-            $output[$i]['properties'] = array($pfCollect_Wmi->fields['properties']);
-            $output[$i]['uuid'] = $taskjob['uniqid']."_{$i}";
+               $output[$i]['class'] = $pfCollect_Wmi->fields['class'];
+               $output[$i]['properties'] = array($pfCollect_Wmi->fields['properties']);
+               $output[$i]['uuid'] = $taskjob['uniqid']."_{$i}";
+            }
             break;
 
          case 'PluginFusioninventoryCollect_File':
