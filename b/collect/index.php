@@ -96,8 +96,19 @@ if (isset($_GET['action'])) {
          $pfTaskjobstate = new PluginFusioninventoryTaskjobstate();
          $pfAgent = new PluginFusioninventoryAgent();
 
-         $jobstate = current($pfTaskjobstate->find("`uniqid`='".$_GET['uuid']."'
+         //Collect UUID format : UUID_COLLECTTASKID
+         //Exemple : 5730f0b5aea3f_5
+
+         $_GET['uuid'] = explode("_", $_GET['uuid']);
+
+         $jobstate = current($pfTaskjobstate->find("`uniqid`='".$_GET['uuid'][0]."'
             AND `state`!='".PluginFusioninventoryTaskjobstate::FINISHED."'", '', 1));
+
+
+         //At this point, itemtype and items_id relates to the parent Collect, they should be translated to the actual collect task inside.
+
+         $jobstate['itemtype'] = PluginFusioninventoryCollect::getRealItemtypeById($jobstate['items_id']);
+         $jobstate['items_id'] = $_GET['uuid'][1];
 
          if (isset($jobstate['plugin_fusioninventory_agents_id'])) {
             $pfAgent->getFromDB($jobstate['plugin_fusioninventory_agents_id']);
