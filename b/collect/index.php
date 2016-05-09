@@ -129,6 +129,8 @@ if (isset($_GET['action'])) {
             if($jobstate['items_id'] == key($CollectObjSearch)){
               $status_finish = true;
             }
+            Toolbox::logInFile('fusinv',print_r("status_finish",true));
+            Toolbox::logInFile('fusinv',print_r($status_finish,true));
 
 
          if (isset($jobstate['plugin_fusioninventory_agents_id'])) {
