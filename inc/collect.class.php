@@ -110,6 +110,17 @@ class PluginFusioninventoryCollect extends CommonDBTM {
       return TRUE;
    }
 
+   static function getRealItemtypeById($items_id){
+      $obj = new self;
+      if($obj->getFromDB($items_id)){
+         return get_class($obj)."_".ucfirst($obj->fields['type']);   
+      }else{
+         return false;
+      }
+
+      
+   }
+
 
 
    function prepareRun($taskjobs_id) {
@@ -374,6 +385,9 @@ class PluginFusioninventoryCollect extends CommonDBTM {
 
    function run($taskjob, $agent) {
       $output = array();
+
+      $taskjob['itemtype'] = self::getRealItemtypeById($taskjob['items_id']);
+
       switch ($taskjob['itemtype']) {
 
          case 'PluginFusioninventoryCollect_Registry':
